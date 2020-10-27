@@ -1,6 +1,6 @@
 # cookiecutter-rawdata-converter-app
 
-A seed for generating new rawdata converter applications using [cookiecutter](https://cookiecutter.readthedocs.io/en/1.7.2/).
+Seed for generating new Rawdata Converter applications using [cookiecutter](https://cookiecutter.readthedocs.io/en/1.7.2/).
 
 ## Usage
 
@@ -8,11 +8,11 @@ A seed for generating new rawdata converter applications using [cookiecutter](ht
 
 ```sh
 # Basic usage (You will be prompted to provide basic information about your application)
-$ ./cookiecutter-docker.sh
+$ ./bin/cookiecutter-docker.sh
 
 
 # Additional arguments are available
-$ ./cookiecutter-docker.sh --help
+$ ./bin/cookiecutter-docker.sh --help
     Usage: ./cookiecutter-docker.sh [OPTIONS]
 
 Options:
@@ -31,16 +31,16 @@ Using cookiecutter without cloning this repo:
 $ cookiecutter gh:statisticsnorway/cookiecutter-rawdata-converter-app
 ```
 
-...or from you local clone of this repo:
+...or from a local clone of this repo:
 
 ```sh
 $ cookiecutter path/to/cookiecutter-rawdata-converter-app
 ```
 
 
-## To install cookiecutter on you local machine
+## To install cookiecutter
 
-* Requires python3 on you local machine.
+* Requires python3
 
 ```sh
 $ pip install cookiecutter
