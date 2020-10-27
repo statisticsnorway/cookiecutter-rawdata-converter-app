@@ -1,6 +1,6 @@
-# cokiecutter-rawdata-converter-app
+# cookiecutter-rawdata-converter-app
 
-A seed for generating new rawdata converter applications using cookiecutter.
+A seed for generating new rawdata converter applications using [cookiecutter](https://cookiecutter.readthedocs.io/en/1.7.2/).
 
 ## Usage
 
@@ -25,9 +25,16 @@ Options:
 
 ### Run with cookiecutter installed on local machine
 
-Using 
+Using cookiecutter without cloning this repo:
+
 ```sh
 $ cookiecutter gh:statisticsnorway/cookiecutter-rawdata-converter-app
+```
+
+...or from you local clone of this repo:
+
+```sh
+$ cookiecutter path/to/cookiecutter-rawdata-converter-app
 ```
 
 
