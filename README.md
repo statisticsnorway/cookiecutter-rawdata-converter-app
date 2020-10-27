@@ -30,13 +30,16 @@ Using
 $ cookiecutter gh:statisticsnorway/cookiecutter-rawdata-converter-app
 ```
 
-A 
 
-/*
-Requires
-Python
-Cookiecutter brew install cookiecutter or pip install cookiecutter
-JDK 8+
-Use cookiecutter-spring-boot
-cookiecutter https://github.com/Apeopl/cookiecutter-spring-boot
-*/
+## To install cookiecutter on you local machine
+
+* Requires python3 on you local machine.
+
+```sh
+$ pip install cookiecutter
+```
+or
+```
+$ brew install cookiecutter
+```
+
