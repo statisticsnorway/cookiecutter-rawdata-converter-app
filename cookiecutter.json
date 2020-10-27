@@ -6,5 +6,5 @@
     "package_dir": "{{ cookiecutter.base_package.replace('.', '/') }}",
     "rawdata_shortname": "somerawdata",
     "micronaut_version": "2.1.2",
-    "rawdata_converter_version": "0.5.7"
+    "rawdata_converter_version": "0.5.8"
 }
