@@ -27,7 +27,7 @@ public class {{cookiecutter.converter_name}}RawdataConverter implements RawdataC
 
     private static final String RAWDATA_ITEMNAME_ENTRY = "entry";
     private static final String FIELDNAME_DC_MANIFEST = "dcManifest";
-    private static final String FIELDNAME_CSV_DATA = "data";
+    private static final String FIELDNAME_DATA = "data";
 
     private final {{cookiecutter.converter_name}}RawdataConverterConfig converterConfig;
     private final ValueInterceptorChain valueInterceptorChain;
