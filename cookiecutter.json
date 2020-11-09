@@ -1,5 +1,5 @@
 {
-    "converter_name": "MyConverter",
+    "converter_name": "SomeName",
     "project_name": "rawdata-converter-app-{{cookiecutter.converter_name.lower()}}",
     "project_slug": "{{ cookiecutter.converter_name.lower()|replace(' ', '_')|replace('-', '_')|replace('.', '_')|trim() }}",
     "base_package": "no.ssb.rawdata.converter.app",
