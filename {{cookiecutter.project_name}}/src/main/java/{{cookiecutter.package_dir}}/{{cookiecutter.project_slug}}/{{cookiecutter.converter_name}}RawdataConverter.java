@@ -52,7 +52,7 @@ public class {{cookiecutter.converter_name}}RawdataConverter implements RawdataC
         RawdataMessageAdapter msg = new RawdataMessageAdapter(sample);
         dcManifestSchemaAdapter = DcManifestSchemaAdapter.of(sample);
 
-        String targetNamespace = "dapla.rawdata." + msg.getTopic().orElse("{{cookiecutter.converter_name.lower()}}");
+        String targetNamespace = "dapla.rawdata.{{cookiecutter.project_slug.lower()}}." + msg.getTopic().orElse("dataset");
 
         targetAvroSchema = new AggregateSchemaBuilder(targetNamespace)
           .schema(FIELDNAME_DC_MANIFEST, dcManifestSchemaAdapter.getDcManifestSchema())
