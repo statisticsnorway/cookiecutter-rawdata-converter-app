@@ -30,7 +30,7 @@ pseudo-secrets:
     type: AES256
 
 rawdata.sources:
-  fs-{{cookiecutter.rawdata_shortname}}:
+  {{cookiecutter.rawdata_shortname}}:
     encryption:
       key: blah
       salt: blahblah
@@ -80,7 +80,7 @@ rawdata.converter:
       parent: base
       active-by-default: false
       rawdata-source:
-        name: fs-{{cookiecutter.rawdata_shortname}}
+        name: {{cookiecutter.rawdata_shortname}}
         topic: {{cookiecutter.rawdata_shortname}}-testtopic-202009211735
         initial-position: LAST
       target-storage:
