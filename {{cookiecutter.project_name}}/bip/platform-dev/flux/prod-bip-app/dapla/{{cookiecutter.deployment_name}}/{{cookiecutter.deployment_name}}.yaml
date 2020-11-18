@@ -1,0 +1,181 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: "{{cookiecutter.deployment_name}}"
+  namespace: "dapla"
+  annotations:
+    fluxcd.io/ignore: "false"
+    fluxcd.io/automated: "true"
+    fluxcd.io/tag.chart-image: semver:*
+    fluxcd.io/locked: "false"
+spec:
+  chart:
+    git: "ssh://git@github.com/statisticsnorway/platform-dev"
+    ref: "master"
+    path: "helm/charts/ssb-chart"
+  releaseName: "{{cookiecutter.deployment_name}}"
+  values:
+
+    name: "{{cookiecutter.deployment_name}}"
+
+    appType: "backend"
+
+    cluster: "prod-bip-app"
+
+    billingProject: "ssb-dapla"
+
+    image:
+      repository: eu.gcr.io/prod-bip/ssb/dapla/{{cookiecutter.project_name}}
+      tag: '1.0.0'
+
+    port:
+      name: "http"
+      containerport: 8080
+
+    replicaCount: 1
+
+    resources:
+      enabled: true
+      limits:
+        memory: 2Gi
+      requests:
+        cpu: 100m
+        memory: 1Gi
+
+    # Optional
+    # Prometheus metric endpoint.
+    metrics:
+      enabled: true
+      port: 8080
+      path: /prometheus
+
+    # Optional
+    # Kubernetes probes.
+    probes:
+      liveness:
+        enabled: true
+        livenessProbe:
+          httpGet:
+            port: 8080
+            path: /health/liveness
+      readiness:
+        enabled: true
+        readinessProbe:
+          httpGet:
+            port: 8080
+            path: /health/readiness
+
+    networkpolicy:
+      enabled: true
+
+    serviceAccount:
+      annotations:
+        # Matches SA created in 'workload-identity/{{cookiecutter.deployment_name}}-wi-iamserviceaccount.yaml'
+        iam.gke.io/gcp-service-account: "{{cookiecutter.deployment_name}}-wi-sa@ssb-team-dapla.iam.gserviceaccount.com"
+
+    environmentVariables:
+    - name: "LOGBACK_CONFIGURATION_FILE"
+      value: "/conf/logback-prod-bip.xml"
+    - name: "MICRONAUT_ENVIRONMENTS"
+      value: "bip-prod"
+    - name: "MICRONAUT_CONFIG_FILES"
+      value: "/conf/application-bip-prod.yaml"
+    - name: "RAWDATA_SOURCES_{{cookiecutter.rawdata_shortname.upper()}}_ENCRYPTION_KEY"
+      valueFrom:
+        secretKeyRef:
+          name: rawdata-encryption-credentials-{{cookiecutter.rawdata_shortname}}
+          key: encryptionKey
+    - name: "RAWDATA_SOURCES_{{cookiecutter.rawdata_shortname.upper()}}_ENCRYPTION_SALT"
+      valueFrom:
+        secretKeyRef:
+          name: rawdata-encryption-credentials-{{cookiecutter.rawdata_shortname}}
+          key: encryptionSalt
+    - name: "PSEUDO_SECRETS_SECRET1_CONTENT"
+      valueFrom:
+        secretKeyRef:
+          name: pseudo-secrets-{{cookiecutter.project_slug}}
+          key: secret1
+    - name: "SERVICES_DAPLA_OAUTH_CLIENT_ID"
+      valueFrom:
+        secretKeyRef:
+          name: rawdata-converter-keycloak-credentials
+          key: keycloak-client-id
+    - name: "SERVICES_DAPLA_OAUTH_CLIENT_SECRET"
+      valueFrom:
+        secretKeyRef:
+          name: rawdata-converter-keycloak-credentials
+          key: keycloak-client-secret
+
+    configs:
+    - name: application-bip-prod.yaml
+      mountPath: /conf
+      config: |
+        micronaut:
+          application.name: {{cookiecutter.project_name}}
+          server.port: 8080
+
+        endpoints:
+          prometheus:
+            sensitive: false
+
+        services:
+          dapla-oauth:
+            host: https://keycloak.prod-bip-app.ssb.no
+            token-endpoint-path: /auth/realms/ssb/protocol/openid-connect/token
+            token-provider: keycloak
+          dapla-data-access:
+            impl: HTTP
+            host: http://data-access.dapla.svc.cluster.local
+            port: 80
+          dapla-metadata-distributor:
+            impl: HTTP
+            host: http://metadata-distributor.dapla.svc.cluster.local
+            port: 80
+            project-id: prod-bip
+            topic: metadata-distributor-dataset-updates
+
+        rawdata.sources:
+          {{cookiecutter.rawdata_shortname}}-rawdata:
+            rawdata-client:
+              provider: gcs
+              local-temp-folder: temp
+              avro-file:
+                max.seconds: 3600
+                max.bytes: 10485760
+                sync.interval: 500000
+              gcs:
+                bucket-name: ssb-dapla-rawdata-prod-{{cookiecutter.rawdata_shortname}}
+                credential-provider: compute-engine
+                service-account.key-file: leaving-this-blank-does-not-work
+                listing.min-interval-seconds: 15
+
+        rawdata.converter:
+          job-scheduler:
+            max-concurrent-jobs: 10
+
+          jobs:
+            base:
+              prototype: true
+              debug:
+                dryrun: false
+                log-rawdata-content-allowed: false
+                store-failed-messages: true
+                failed-messages-storage-path: /tmp/failed-messages
+              converter-settings:
+                rawdata-samples: 1
+                max-records-before-flush: 1000000
+                max-seconds-before-flush: 300
+              rawdata-source:
+                name: {{cookiecutter.rawdata_shortname}}-rawdata
+              target-dataset:
+                valuation: INTERNAL
+                type: BOUNDED
+                publish-metadata: true
+              target-storage:
+                type: gcs
+                root: gs://ssb-data-prod-kilde-{{cookiecutter.rawdata_shortname}}
+              pseudo-rules:
+                - name: blah
+                  pattern: '**/{foo,bar,fooBar}'
+                  func: fpe-anychar(secret1)

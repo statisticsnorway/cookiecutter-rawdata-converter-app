@@ -1,0 +1,16 @@
+# This will ensure that the Workload Identity GCP service account for
+# 'metadata-distributor' have the 'projects/ssb-team-dapla/roles/ssb.buckets.read' role on the bucket
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: metadata-distributor-wi-storage-kilde-{{cookiecutter.rawdata_shortname}}-iampolicymember-custom-read-dapla
+  namespace: dapla
+spec:
+  resourceRef:
+    apiVersion: storage.cnrm.cloud.google.com/v1beta1
+    kind: StorageBucket
+    # Matches bucket created in 'prod-bip-app/dapla/dapla-data/dapla-data-kilde-{{cookiecutter.rawdata_shortname}}-storagebucket.yaml'
+    name: ssb-data-prod-kilde-{{cookiecutter.rawdata_shortname}}
+  role: "projects/ssb-team-dapla/roles/ssb.buckets.read"
+  # Matches SA managed in platform.
+  member: serviceAccount:metadata-dis-cdaaba38c5ab@prod-bip.iam.gserviceaccount.com

@@ -1,0 +1,14 @@
+# This will ensure that the Workload Identity GCP service account for
+# '{{cookiecutter.deployment_name}}' have the 'projects/ssb-team-dapla/roles/ssb.buckets.read' role on the rawdata bucket
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: {{cookiecutter.deployment_name}}-wi-storage-rawdata-{{cookiecutter.rawdata_shortname}}-r-iampolicymember
+  namespace: dapla
+spec:
+  resourceRef:
+    apiVersion: storage.cnrm.cloud.google.com/v1beta1
+    kind: StorageBucket
+    name: ssb-dapla-rawdata-prod-{{cookiecutter.rawdata_shortname}}
+  role: "projects/ssb-team-dapla/roles/ssb.buckets.read"
+  member: serviceAccount:{{cookiecutter.deployment_name}}-wi-sa@ssb-team-dapla.iam.gserviceaccount.com

@@ -1,0 +1,19 @@
+# Note that all buckets should be set up using 'Uniform' access control. This is
+# not supported explicitly through Config Connector as of 1.13.0, but this can
+# be controlled on project level so that all buckets are created using 'Uniform'
+# automatically. Make sure this is activated on your project before creating
+# buckets
+apiVersion: storage.cnrm.cloud.google.com/v1beta1
+kind: StorageBucket
+metadata:
+  name: ssb-data-prod-kilde-{{cookiecutter.rawdata_shortname}}
+  namespace: dapla
+  annotations:
+    # This annotation ensures that the bucket is not destroyed if there's data
+    # in it when the 'StorageBucket' object is deleted from Kubernetes. If this
+    # is set to 'true', Config Connector will delete all objects before
+    # destroying the bucket. Use this annotation with caution
+    cnrm.cloud.google.com/force-destroy: "false"
+spec:
+  location: europe-north1
+  uniformBucketLevelAccess: true

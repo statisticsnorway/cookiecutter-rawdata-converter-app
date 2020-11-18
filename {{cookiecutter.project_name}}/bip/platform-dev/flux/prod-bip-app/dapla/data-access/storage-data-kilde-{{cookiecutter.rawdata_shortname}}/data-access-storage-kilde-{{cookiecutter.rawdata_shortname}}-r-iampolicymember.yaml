@@ -1,0 +1,16 @@
+# This will ensure that the service account 'read-storage-kilde-{{cookiecutter.rawdata_shortname}}-dapla'
+# has the 'projects/ssb-team-dapla/roles/ssb.buckets.read' role on the bucket
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: data-access-storage-kilde-{{cookiecutter.rawdata_shortname}}-r-iampolicymember
+  namespace: dapla
+spec:
+  resourceRef:
+    apiVersion: storage.cnrm.cloud.google.com/v1beta1
+    kind: StorageBucket
+    # Matches bucket created in 'prod-bip-app/dapla/dapla-data/dapla-data-kilde-{{cookiecutter.rawdata_shortname}}-storagebucket.yaml'
+    name: ssb-data-prod-kilde-{{cookiecutter.rawdata_shortname}}
+  role: "projects/ssb-team-dapla/roles/ssb.buckets.read"
+  # Matches SA created in 'data-access-read-storage-kilde-{{cookiecutter.rawdata_shortname}}-iamserviceaccount.yaml'.
+  member: serviceAccount:read-storage-kilde-{{cookiecutter.rawdata_shortname}}@ssb-team-dapla.iam.gserviceaccount.com

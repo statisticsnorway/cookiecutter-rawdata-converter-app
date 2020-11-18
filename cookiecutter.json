@@ -1,10 +1,11 @@
 {
     "converter_name": "SomeName",
     "project_name": "rawdata-converter-app-{{cookiecutter.converter_name.lower()}}",
+    "deployment_name": "rawdata-converter-{{cookiecutter.converter_name.lower()}}",
     "project_slug": "{{ cookiecutter.converter_name.lower()|replace(' ', '_')|replace('-', '_')|replace('.', '_')|trim() }}",
     "base_package": "no.ssb.rawdata.converter.app",
     "package_dir": "{{ cookiecutter.base_package.replace('.', '/') }}",
     "rawdata_shortname": "somerawdata",
-    "micronaut_version": "2.1.2",
-    "rawdata_converter_version": "0.5.10"
+    "micronaut_version": "2.1.4",
+    "rawdata_converter_version": "0.5.17"
 }
