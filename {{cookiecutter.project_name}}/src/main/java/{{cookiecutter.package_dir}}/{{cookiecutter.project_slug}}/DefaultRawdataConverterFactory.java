@@ -25,7 +25,7 @@ public class DefaultRawdataConverterFactory implements RawdataConverterFactory {
         {{cookiecutter.converter_name}}RawdataConverterConfig converterConfig = defaultRawdataConverterConfig;
         if (converterConfigJson != null) {
             try {
-                Json.toObject({{cookiecutter.converter_name}}RawdataConverterConfig.class, converterConfigJson);
+                converterConfig = Json.toObject({{cookiecutter.converter_name}}RawdataConverterConfig.class, converterConfigJson);
             }
             catch (Exception e) {
                 throw new RawdataConverterException("Invalid {{cookiecutter.converter_name}}RawdataConverterConfig params: " + converterConfigJson, e);
