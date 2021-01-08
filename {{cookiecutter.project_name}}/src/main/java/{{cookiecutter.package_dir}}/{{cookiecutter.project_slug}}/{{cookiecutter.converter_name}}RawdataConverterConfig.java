@@ -3,7 +3,7 @@ package {{cookiecutter.base_package}}.{{cookiecutter.project_slug}};
 import io.micronaut.context.annotation.ConfigurationProperties;
 import lombok.Data;
 
-@ConfigurationProperties("rawdata.converter.app.{{cookiecutter.project_slug}}")
+@ConfigurationProperties("rawdata.converter.{{cookiecutter.project_slug}}")
 @Data
 public class {{cookiecutter.converter_name}}RawdataConverterConfig {
 

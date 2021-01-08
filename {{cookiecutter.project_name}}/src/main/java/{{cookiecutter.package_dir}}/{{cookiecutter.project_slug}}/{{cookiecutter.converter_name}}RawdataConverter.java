@@ -84,7 +84,7 @@ public class {{cookiecutter.converter_name}}RawdataConverter implements RawdataC
 
     @Override
     public ConversionResult convert(RawdataMessage rawdataMessage) {
-        ConversionResultBuilder resultBuilder = ConversionResult.builder(new GenericRecordBuilder(targetAvroSchema));
+        ConversionResultBuilder resultBuilder = ConversionResult.builder(targetAvroSchema, rawdataMessage);
 
         RawdataMessageAdapter.print(rawdataMessage); // TODO: Remove this ;-)
         addDcManifest(rawdataMessage, resultBuilder);
