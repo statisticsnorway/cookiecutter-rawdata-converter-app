@@ -9,18 +9,10 @@ import no.ssb.rawdata.converter.core.convert.ValueInterceptorChain;
 import no.ssb.rawdata.converter.core.exception.RawdataConverterException;
 import no.ssb.rawdata.converter.core.schema.AggregateSchemaBuilder;
 import no.ssb.rawdata.converter.core.schema.DcManifestSchemaAdapter;
-import no.ssb.rawdata.converter.core.schema.DcManifestSchemaAdapter;
 import no.ssb.rawdata.converter.util.RawdataMessageAdapter;
 import org.apache.avro.Schema;
-import org.apache.avro.generic.GenericRecord;
-import org.apache.avro.generic.GenericRecordBuilder;
 
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
-import static no.ssb.rawdata.converter.util.RawdataMessageAdapter.posAndIdOf;
 
 @Slf4j
 public class {{cookiecutter.converter_name}}RawdataConverter implements RawdataConverter {

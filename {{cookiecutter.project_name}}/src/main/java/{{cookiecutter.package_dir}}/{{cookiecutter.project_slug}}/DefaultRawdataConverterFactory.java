@@ -21,14 +21,14 @@ public class DefaultRawdataConverterFactory implements RawdataConverterFactory {
     private final {{cookiecutter.converter_name}}RawdataConverterConfig defaultRawdataConverterConfig;
 
     @Override
-    public RawdataConverter newRawdataConverter(ConverterJobConfig jobConfig, String converterConfigJson) {
+    public RawdataConverter newRawdataConverter(ConverterJobConfig jobConfig) {
         {{cookiecutter.converter_name}}RawdataConverterConfig converterConfig = defaultRawdataConverterConfig;
-        if (converterConfigJson != null) {
+        if (! jobConfig.getAppConfig().isEmpty()) {
             try {
-                converterConfig = Json.toObject({{cookiecutter.converter_name}}RawdataConverterConfig.class, converterConfigJson);
+                converterConfig = Json.toObject({{cookiecutter.converter_name}}RawdataConverterConfig.class, jobConfig.appConfigJson());
             }
             catch (Exception e) {
-                throw new RawdataConverterException("Invalid {{cookiecutter.converter_name}}RawdataConverterConfig params: " + converterConfigJson, e);
+                throw new RawdataConverterException("Invalid {{cookiecutter.converter_name}}RawdataConverterConfig params: " + jobConfig.appConfigJson(), e);
             }
         }
 
