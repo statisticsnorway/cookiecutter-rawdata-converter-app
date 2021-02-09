@@ -5,6 +5,8 @@
 /src/test/javascript/coverage/
 **/target/*
 /bip
+/ext
+/src/test/resources/rawdata/private
 *-private.yml
 
 ######################
