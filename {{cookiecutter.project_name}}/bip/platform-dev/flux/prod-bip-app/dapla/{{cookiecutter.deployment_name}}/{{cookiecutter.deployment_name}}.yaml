@@ -159,9 +159,16 @@ spec:
               prototype: true
               debug:
                 dryrun: false
-                log-rawdata-content-allowed: false
-                store-failed-messages: true
-                failed-messages-storage-path: /tmp/failed-messages
+                development-mode: false
+                log-failed-rawdata: false
+                log-skipped-rawdata: false
+                log-all-rawdata: false
+                log-all-converted: false
+                store-failed-rawdata: true
+                store-skipped-rawdata: true
+                store-all-rawdata: false
+                store-all-converted: false
+                local-storage-path: /tmp/converter
               converter-settings:
                 rawdata-samples: 1
                 max-records-before-flush: 1000000
