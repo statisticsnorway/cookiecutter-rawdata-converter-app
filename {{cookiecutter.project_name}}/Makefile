@@ -20,9 +20,13 @@ release-dryrun: ## Simulate a release in order to detect any issues
 release: ## Release a new version. Update POMs and tag the new version in git
 	./mvnw release:prepare release:perform -Darguments="-Dmaven.deploy.skip=true -Dmaven.javadoc.skip=true"
 
+.PHONY: changelog
+changelog: ## Generate CHANGELOG.md
+	github_changelog_generator -u statisticsnorway -p {{cookiecutter.project_name}}
+
 .PHONY: run-local
 run-local: ## Run the app locally (without docker)
-	java -Dcom.sun.management.jmxremote -Dmicronaut.environments=local-private -jar target/rawdata-converter-app-*.jar
+	java -Dcom.sun.management.jmxremote -Dmicronaut.environments=local -jar target/rawdata-converter-app-*.jar
 
 .PHONY: help
 help:
