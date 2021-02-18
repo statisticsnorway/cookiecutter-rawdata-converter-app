@@ -11,6 +11,8 @@ import no.ssb.rawdata.converter.core.schema.AggregateSchemaBuilder;
 import no.ssb.rawdata.converter.core.schema.DcManifestSchemaAdapter;
 import no.ssb.rawdata.converter.util.RawdataMessageAdapter;
 import org.apache.avro.Schema;
+import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.generic.GenericRecordBuilder;
 
 import java.util.Collection;
 
@@ -18,13 +20,15 @@ import java.util.Collection;
 public class {{cookiecutter.converter_name}}RawdataConverter implements RawdataConverter {
 
     private static final String RAWDATA_ITEMNAME_ENTRY = "entry";
-    private static final String FIELDNAME_DC_MANIFEST = "dcManifest";
+    private static final String FIELDNAME_MANIFEST = "manifest";
+    private static final String FIELDNAME_COLLECTOR = "collector";
     private static final String FIELDNAME_DATA = "data";
 
     private final {{cookiecutter.converter_name}}RawdataConverterConfig converterConfig;
     private final ValueInterceptorChain valueInterceptorChain;
 
     private DcManifestSchemaAdapter dcManifestSchemaAdapter;
+    private Schema manifestSchema;
     private Schema targetAvroSchema;
 
     public {{cookiecutter.converter_name}}RawdataConverter({{cookiecutter.converter_name}}RawdataConverterConfig converterConfig, ValueInterceptorChain valueInterceptorChain) {
@@ -44,10 +48,13 @@ public class {{cookiecutter.converter_name}}RawdataConverter implements RawdataC
         RawdataMessageAdapter msg = new RawdataMessageAdapter(sample);
         dcManifestSchemaAdapter = DcManifestSchemaAdapter.of(sample);
 
-        String targetNamespace = "dapla.rawdata.{{cookiecutter.project_slug.lower()}}." + msg.getTopic().orElse("dataset");
+        manifestSchema = new AggregateSchemaBuilder("dapla.rawdata.manifest")
+          .schema(FIELDNAME_COLLECTOR, dcManifestSchemaAdapter.getDcManifestSchema())
+          .build();
 
+        String targetNamespace = "dapla.rawdata.{{cookiecutter.project_slug.lower()}}." + msg.getTopic().orElse("dataset");
         targetAvroSchema = new AggregateSchemaBuilder(targetNamespace)
-          .schema(FIELDNAME_DC_MANIFEST, dcManifestSchemaAdapter.getDcManifestSchema())
+          .schema(FIELDNAME_MANIFEST, manifestSchema)
           // .schema(FIELDNAME_DATA, dataSchema)
           .build();
     }
@@ -79,14 +86,19 @@ public class {{cookiecutter.converter_name}}RawdataConverter implements RawdataC
         ConversionResultBuilder resultBuilder = ConversionResult.builder(targetAvroSchema, rawdataMessage);
 
         RawdataMessageAdapter.print(rawdataMessage); // TODO: Remove this ;-)
-        addDcManifest(rawdataMessage, resultBuilder);
+
+        addManifest(rawdataMessage, resultBuilder);
         // TODO: add converted data
 
         return resultBuilder.build();
     }
 
-    void addDcManifest(RawdataMessage rawdataMessage, ConversionResultBuilder resultBuilder) {
-        resultBuilder.withRecord(FIELDNAME_DC_MANIFEST, dcManifestSchemaAdapter().newRecord(rawdataMessage));
+    void addManifest(RawdataMessage rawdataMessage, ConversionResultBuilder resultBuilder) {
+        GenericRecord manifest = new GenericRecordBuilder(manifestSchema)
+          .set(FIELDNAME_COLLECTOR, dcManifestSchemaAdapter.newRecord(rawdataMessage, valueInterceptorChain))
+          .build();
+
+        resultBuilder.withRecord(FIELDNAME_MANIFEST, manifest);
     }
 
     public static class {{cookiecutter.converter_name}}RawdataConverterException extends RawdataConverterException {
