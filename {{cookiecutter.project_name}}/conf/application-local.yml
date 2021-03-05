@@ -1,7 +1,6 @@
 micronaut:
-  application.name: {{ cookiecutter.project_name }}
   server:
-    port: 8080
+    port: {{cookiecutter.server_port}}
 
 logger.levels:
   no.ssb.rawdata.converter: DEBUG
@@ -20,16 +19,13 @@ services:
   dapla-metadata-distributor:
     impl: MOCK
 
-pseudo-secrets:
-  secret1:
-    content: kensentmewcilAwuVx6NuAsMWLusOSA/ldia40ZugDI=
+pseudo.secrets:
+  somesecret:
+    content: testsecretcilAwuVx6NuAsMWLusOSA/ldia40ZugDI=
     type: AES256
 
 rawdata.sources:
   {{cookiecutter.rawdata_shortname}}:
-    encryption:
-      key: blah
-      salt: blahblah
     rawdata-client:
       provider: filesystem
       local-temp-folder: temp
@@ -58,6 +54,11 @@ rawdata.converter:
         rawdata-samples: 1
         max-records-before-flush: 1000000
         max-seconds-before-flush: 300
+      rawdata-source:
+        name: {{cookiecutter.rawdata_shortname}}
+        encryption-key-id: rawdata-encryption-credentials-dummy-key
+        encryption-key-version: 1
+        encryption-salt: blah
       target-storage:
         type: filesystem
         root: file://../localenv/datastore
@@ -68,13 +69,12 @@ rawdata.converter:
       pseudo-rules:
         - name: fodselsnummer
           pattern: '**/{folkeregisteridentifikator,foedselsEllerDNummer}'
-          func: fpe-fnr(secret1)
+          func: fpe-fnr(somesecret)
 
     job-blah:
       parent: base
       active-by-default: false
       rawdata-source:
-        name: {{cookiecutter.rawdata_shortname}}
         topic: {{cookiecutter.rawdata_shortname}}-testtopic-202009211735
         initial-position: LAST
       target-storage:
@@ -83,4 +83,4 @@ rawdata.converter:
       pseudo-rules:
         - name: navn
           pattern: '**/{navn}'
-          func: fpe-anychar(secret1)
+          func: fpe-anychar(somesecret)

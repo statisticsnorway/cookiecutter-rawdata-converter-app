@@ -26,7 +26,7 @@ changelog: ## Generate CHANGELOG.md
 
 .PHONY: run-local
 run-local: ## Run the app locally (without docker)
-	java -Dcom.sun.management.jmxremote -Dmicronaut.environments=local -jar target/rawdata-converter-app-*.jar
+	MICRONAUT_ENVIRONMENTS=local MICRONAUT_CONFIG_FILES=conf/application-local.yml java -Dcom.sun.management.jmxremote -jar  target/rawdata-converter-app-*.jar
 
 .PHONY: help
 help:

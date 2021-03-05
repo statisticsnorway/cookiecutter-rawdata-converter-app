@@ -81,31 +81,6 @@ spec:
       value: "bip-prod"
     - name: "MICRONAUT_CONFIG_FILES"
       value: "/conf/application-bip-prod.yaml"
-    - name: "RAWDATA_SOURCES_{{cookiecutter.rawdata_shortname.upper()}}_ENCRYPTION_KEY"
-      valueFrom:
-        secretKeyRef:
-          name: rawdata-encryption-credentials-{{cookiecutter.rawdata_shortname}}
-          key: encryptionKey
-    - name: "RAWDATA_SOURCES_{{cookiecutter.rawdata_shortname.upper()}}_ENCRYPTION_SALT"
-      valueFrom:
-        secretKeyRef:
-          name: rawdata-encryption-credentials-{{cookiecutter.rawdata_shortname}}
-          key: encryptionSalt
-    - name: "PSEUDO_SECRETS_SECRET1_CONTENT"
-      valueFrom:
-        secretKeyRef:
-          name: pseudo-secrets-{{cookiecutter.project_slug}}
-          key: secret1
-    - name: "SERVICES_DAPLA_OAUTH_CLIENT_ID"
-      valueFrom:
-        secretKeyRef:
-          name: rawdata-converter-keycloak-credentials
-          key: keycloak-client-id
-    - name: "SERVICES_DAPLA_OAUTH_CLIENT_SECRET"
-      valueFrom:
-        secretKeyRef:
-          name: rawdata-converter-keycloak-credentials
-          key: keycloak-client-secret
 
     configs:
     - name: application-bip-prod.yaml
@@ -113,7 +88,7 @@ spec:
       config: |
         micronaut:
           application.name: {{cookiecutter.project_name}}
-          server.port: 8080
+          server.port: {{cookiecutter.server_port}}
 
         endpoints:
           prometheus:
@@ -185,4 +160,4 @@ spec:
               pseudo-rules:
                 - name: blah
                   pattern: '**/{foo,bar,fooBar}'
-                  func: fpe-anychar(secret1)
+                  func: fpe-anychar(testsecret1)
