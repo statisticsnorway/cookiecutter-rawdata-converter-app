@@ -1,6 +1,9 @@
 micronaut:
   server:
     port: {{cookiecutter.server_port}}
+  caches:
+    secrets:
+      expire-after-access: 15m
 
 logger.levels:
   no.ssb.rawdata.converter: DEBUG
@@ -18,6 +21,10 @@ services:
     impl: MOCK
   dapla-metadata-distributor:
     impl: MOCK
+  secrets:
+    impl: LOCAL
+    overrides:
+      rawdata-encryption-credentials-dummy-key: ThisIsASecretDummyKeyUsedToTestRawdataEncryption
 
 pseudo.secrets:
   somesecret:

@@ -99,6 +99,8 @@ spec:
             host: https://keycloak.prod-bip-app.ssb.no
             token-endpoint-path: /auth/realms/ssb/protocol/openid-connect/token
             token-provider: keycloak
+            client-id-key: keycloak_rawdataconverter_clientid
+            client-secret-key: keycloak_rawdataconverter_clientsecret
           dapla-data-access:
             impl: HTTP
             host: http://data-access.dapla.svc.cluster.local
@@ -109,6 +111,13 @@ spec:
             port: 80
             project-id: prod-bip
             topic: metadata-distributor-dataset-updates
+          secrets:
+            impl: GCP
+
+        pseudo.secrets:
+          testsecret1:
+            id: pseudo-secret-testsecret1
+            type: AES256
 
         rawdata.sources:
           {{cookiecutter.rawdata_shortname}}-rawdata:
