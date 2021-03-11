@@ -28,6 +28,10 @@ changelog: ## Generate CHANGELOG.md
 run-local: ## Run the app locally (without docker)
 	MICRONAUT_ENVIRONMENTS=local MICRONAUT_CONFIG_FILES=conf/application-local.yml java -Dcom.sun.management.jmxremote -jar  target/rawdata-converter-app-*.jar
 
+.PHONY: run-local-gcp
+run-local: ## Run the app locally (without docker)
+	MICRONAUT_ENVIRONMENTS=local,local-gcp MICRONAUT_CONFIG_FILES=conf/bootstrap-local-gcp.yml,conf/application-local.yml java -Dcom.sun.management.jmxremote -jar  target/rawdata-converter-app-*.jar
+
 .PHONY: help
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
