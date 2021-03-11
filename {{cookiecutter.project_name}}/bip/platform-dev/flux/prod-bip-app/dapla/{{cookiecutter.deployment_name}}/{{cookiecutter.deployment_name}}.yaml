@@ -80,9 +80,20 @@ spec:
     - name: "MICRONAUT_ENVIRONMENTS"
       value: "bip-prod"
     - name: "MICRONAUT_CONFIG_FILES"
-      value: "/conf/application-bip-prod.yaml"
+      value: "/conf/bootstrap-bip-prod.yaml,/conf/application-bip-prod.yaml"
 
     configs:
+    - name: bootstrap-bip-prod.yaml
+      mountPath: /conf
+      config: |
+        micronaut:
+          application:
+            name: {{cookiecutter.project_name}}
+          config-client:
+            enabled: true
+        gcp:
+          project-id: ssb-team-dapla
+
     - name: application-bip-prod.yaml
       mountPath: /conf
       config: |

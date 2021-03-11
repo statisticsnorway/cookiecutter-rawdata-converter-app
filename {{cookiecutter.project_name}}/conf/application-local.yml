@@ -27,7 +27,7 @@ services:
       rawdata-encryption-credentials-dummy-key: ThisIsASecretDummyKeyUsedToTestRawdataEncryption
 
 pseudo.secrets:
-  somesecret:
+  testsecret:
     content: testsecretcilAwuVx6NuAsMWLusOSA/ldia40ZugDI=
     type: AES256
 
@@ -76,7 +76,7 @@ rawdata.converter:
       pseudo-rules:
         - name: fodselsnummer
           pattern: '**/{folkeregisteridentifikator,foedselsEllerDNummer}'
-          func: fpe-fnr(somesecret)
+          func: fpe-fnr(testsecret)
 
     job-blah:
       parent: base
@@ -90,4 +90,4 @@ rawdata.converter:
       pseudo-rules:
         - name: navn
           pattern: '**/{navn}'
-          func: fpe-anychar(somesecret)
+          func: fpe-anychar(testsecret)
