@@ -29,7 +29,7 @@ run-local: ## Run the app locally (without docker)
 	MICRONAUT_ENVIRONMENTS=local MICRONAUT_CONFIG_FILES=conf/application-local.yml java -Dcom.sun.management.jmxremote -jar  target/rawdata-converter-app-*.jar
 
 .PHONY: run-local-gcp
-run-local: ## Run the app locally (without docker)
+run-local-gcp: ## Run the app locally (without docker) using GCP services
 	MICRONAUT_ENVIRONMENTS=local,local-gcp MICRONAUT_CONFIG_FILES=conf/bootstrap-local-gcp.yml,conf/application-local.yml java -Dcom.sun.management.jmxremote -jar  target/rawdata-converter-app-*.jar
 
 .PHONY: help

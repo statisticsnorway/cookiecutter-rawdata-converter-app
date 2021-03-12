@@ -1,4 +1,6 @@
 micronaut:
+  application:
+    name: {{cookiecutter.project_name}}
   server:
     port: {{cookiecutter.server_port}}
   caches:
@@ -65,7 +67,7 @@ rawdata.converter:
         name: {{cookiecutter.rawdata_shortname}}
         encryption-key-id: rawdata-encryption-credentials-dummy-key
         encryption-key-version: 1
-        encryption-salt: blah
+        encryption-salt: sometestsalt
       target-storage:
         type: filesystem
         root: file://../localenv/datastore

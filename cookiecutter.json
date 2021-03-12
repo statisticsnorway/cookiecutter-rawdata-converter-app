@@ -6,6 +6,6 @@
     "base_package": "no.ssb.rawdata.converter.app",
     "package_dir": "{{ cookiecutter.base_package.replace('.', '/') }}",
     "rawdata_shortname": "{{ cookiecutter.converter_name.lower()|replace(' ', '_')|replace('-', '_')|replace('.', '_')|trim() }}",
-    "rawdata_converter_version": "0.10.5",
+    "rawdata_converter_version": "0.10.6",
     "server_port": "8080"
 }

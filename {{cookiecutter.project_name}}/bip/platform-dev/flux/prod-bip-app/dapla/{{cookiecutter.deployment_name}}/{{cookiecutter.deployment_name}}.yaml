@@ -98,8 +98,14 @@ spec:
       mountPath: /conf
       config: |
         micronaut:
-          application.name: {{cookiecutter.project_name}}
-          server.port: {{cookiecutter.server_port}}
+          application:
+            name: {{cookiecutter.project_name}}
+          server:
+            port: {{cookiecutter.server_port}}
+            cors.enabled: true
+          caches:
+            secrets:
+              expire-after-access: 15m
 
         endpoints:
           prometheus:
@@ -110,8 +116,8 @@ spec:
             host: https://keycloak.prod-bip-app.ssb.no
             token-endpoint-path: /auth/realms/ssb/protocol/openid-connect/token
             token-provider: keycloak
-            client-id-key: keycloak_rawdataconverter_clientid
-            client-secret-key: keycloak_rawdataconverter_clientsecret
+            client-id-key: rawdataconverter-keycloak-clientid
+            client-secret-key: rawdataconverter-keycloak-clientsecret
           dapla-data-access:
             impl: HTTP
             host: http://data-access.dapla.svc.cluster.local
