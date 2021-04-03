@@ -5,7 +5,7 @@ import lombok.Data;
 
 @ConfigurationProperties("rawdata.converter.{{cookiecutter.project_slug}}")
 @Data
-public class {{cookiecutter.converter_name}}RawdataConverterConfig {
+public class {{cookiecutter.converter_name|to_camel}}RawdataConverterConfig {
 
     /**
      * <p>Some config param</p>

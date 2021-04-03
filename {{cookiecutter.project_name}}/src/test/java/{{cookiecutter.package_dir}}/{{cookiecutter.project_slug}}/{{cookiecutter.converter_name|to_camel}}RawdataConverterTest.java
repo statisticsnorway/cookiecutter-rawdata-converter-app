@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Set;
 
 @Disabled
-public class {{cookiecutter.converter_name}}RawdataConverterTest {
+public class {{cookiecutter.converter_name|to_camel}}RawdataConverterTest {
 
     static RawdataMessageFixtures fixtures;
 
@@ -24,10 +24,10 @@ public class {{cookiecutter.converter_name}}RawdataConverterTest {
     @Test
     void shouldConvertRawdataMessages() {
         RawdataMessages messages = fixtures.rawdataMessages("sometopic"); // TODO: replace with topicname
-        {{cookiecutter.converter_name}}RawdataConverterConfig config = new {{cookiecutter.converter_name}}RawdataConverterConfig();
+        {{cookiecutter.converter_name |to_camel}}RawdataConverterConfig config = new {{cookiecutter.converter_name |to_camel}}RawdataConverterConfig();
         // TODO: Set app config
 
-        {{cookiecutter.converter_name}}RawdataConverter converter = new {{cookiecutter.converter_name}}RawdataConverter(config, new ValueInterceptorChain());
+        {{cookiecutter.converter_name |to_camel}}RawdataConverter converter = new {{cookiecutter.converter_name |to_camel}}RawdataConverter(config, new ValueInterceptorChain());
         converter.init(messages.index().values());
         ConversionResult res = converter.convert(messages.index().get("123456")); // TODO: replace with message position
     }
