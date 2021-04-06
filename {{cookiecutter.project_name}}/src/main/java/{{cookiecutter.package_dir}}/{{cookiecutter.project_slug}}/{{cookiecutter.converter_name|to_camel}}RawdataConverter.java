@@ -17,21 +17,21 @@ import org.apache.avro.generic.GenericRecordBuilder;
 import java.util.Collection;
 
 @Slf4j
-public class {{cookiecutter.converter_name}}RawdataConverter implements RawdataConverter {
+public class {{cookiecutter.converter_name|to_camel}}RawdataConverter implements RawdataConverter {
 
     private static final String RAWDATA_ITEMNAME_ENTRY = "entry";
     private static final String FIELDNAME_MANIFEST = "manifest";
     private static final String FIELDNAME_COLLECTOR = "collector";
     private static final String FIELDNAME_DATA = "data";
 
-    private final {{cookiecutter.converter_name}}RawdataConverterConfig converterConfig;
+    private final {{cookiecutter.converter_name|to_camel}}RawdataConverterConfig converterConfig;
     private final ValueInterceptorChain valueInterceptorChain;
 
     private DcManifestSchemaAdapter dcManifestSchemaAdapter;
     private Schema manifestSchema;
     private Schema targetAvroSchema;
 
-    public {{cookiecutter.converter_name}}RawdataConverter({{cookiecutter.converter_name}}RawdataConverterConfig converterConfig, ValueInterceptorChain valueInterceptorChain) {
+    public {{cookiecutter.converter_name|to_camel}}RawdataConverter({{cookiecutter.converter_name |to_camel}}RawdataConverterConfig converterConfig, ValueInterceptorChain valueInterceptorChain) {
         this.converterConfig = converterConfig;
         this.valueInterceptorChain = valueInterceptorChain;
     }
@@ -42,7 +42,7 @@ public class {{cookiecutter.converter_name}}RawdataConverter implements RawdataC
         RawdataMessage sample = sampleRawdataMessages.stream()
           .findFirst()
           .orElseThrow(() ->
-            new {{cookiecutter.converter_name}}RawdataConverterException("Unable to determine target avro schema since no sample rawdata messages were supplied. Make sure to configure `converter-settings.rawdata-samples`")
+            new {{cookiecutter.converter_name|to_camel}}RawdataConverterException("Unable to determine target avro schema since no sample rawdata messages were supplied. Make sure to configure `converter-settings.rawdata-samples`")
           );
 
         RawdataMessageAdapter msg = new RawdataMessageAdapter(sample);
@@ -101,11 +101,11 @@ public class {{cookiecutter.converter_name}}RawdataConverter implements RawdataC
         resultBuilder.withRecord(FIELDNAME_MANIFEST, manifest);
     }
 
-    public static class {{cookiecutter.converter_name}}RawdataConverterException extends RawdataConverterException {
-        public {{cookiecutter.converter_name}}RawdataConverterException(String msg) {
+    public static class {{cookiecutter.converter_name|to_camel}}RawdataConverterException extends RawdataConverterException {
+        public {{cookiecutter.converter_name|to_camel}}RawdataConverterException(String msg) {
             super(msg);
         }
-        public {{cookiecutter.converter_name}}RawdataConverterException(String message, Throwable cause) {
+        public {{cookiecutter.converter_name|to_camel}}RawdataConverterException(String message, Throwable cause) {
             super(message, cause);
         }
     }

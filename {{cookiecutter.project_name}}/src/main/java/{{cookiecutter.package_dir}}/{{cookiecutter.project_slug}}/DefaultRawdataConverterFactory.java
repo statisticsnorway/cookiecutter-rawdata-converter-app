@@ -18,24 +18,24 @@ import javax.inject.Singleton;
 @Slf4j
 public class DefaultRawdataConverterFactory implements RawdataConverterFactory {
     private final FieldPseudonymizerFactory pseudonymizerFactory;
-    private final {{cookiecutter.converter_name}}RawdataConverterConfig defaultRawdataConverterConfig;
+    private final {{cookiecutter.converter_name|to_camel}}RawdataConverterConfig defaultRawdataConverterConfig;
 
     @Override
     public RawdataConverter newRawdataConverter(ConverterJobConfig jobConfig) {
-        {{cookiecutter.converter_name}}RawdataConverterConfig converterConfig = defaultRawdataConverterConfig;
+        {{cookiecutter.converter_name|to_camel}}RawdataConverterConfig converterConfig = defaultRawdataConverterConfig;
         if (! jobConfig.getAppConfig().isEmpty()) {
             try {
-                converterConfig = Json.toObject({{cookiecutter.converter_name}}RawdataConverterConfig.class, jobConfig.appConfigJson());
+                converterConfig = Json.toObject({{cookiecutter.converter_name|to_camel}}RawdataConverterConfig.class, jobConfig.appConfigJson());
             }
             catch (Exception e) {
-                throw new RawdataConverterException("Invalid {{cookiecutter.converter_name}}RawdataConverterConfig params: " + jobConfig.appConfigJson(), e);
+                throw new RawdataConverterException("Invalid {{cookiecutter.converter_name|to_camel}}RawdataConverterConfig params: " + jobConfig.appConfigJson(), e);
             }
         }
 
         return newRawdataConverter(jobConfig, converterConfig);
     }
 
-    public RawdataConverter newRawdataConverter(ConverterJobConfig jobConfig, {{cookiecutter.converter_name}}RawdataConverterConfig converterConfig) {
+    public RawdataConverter newRawdataConverter(ConverterJobConfig jobConfig, {{cookiecutter.converter_name|to_camel}}RawdataConverterConfig converterConfig) {
         ValueInterceptorChain valueInterceptorChain = new ValueInterceptorChain();
 
         if (jobConfig.getPseudoRules() != null && ! jobConfig.getPseudoRules().isEmpty()) {
@@ -45,10 +45,10 @@ public class DefaultRawdataConverterFactory implements RawdataConverterFactory {
 
         // Make sure the converterConfig is not null
         if (converterConfig == null) {
-            converterConfig = (defaultRawdataConverterConfig == null) ? new {{cookiecutter.converter_name}}RawdataConverterConfig() : defaultRawdataConverterConfig;
+            converterConfig = (defaultRawdataConverterConfig == null) ? new {{cookiecutter.converter_name|to_camel}}RawdataConverterConfig() : defaultRawdataConverterConfig;
         }
 
-        return new {{cookiecutter.converter_name}}RawdataConverter(converterConfig, valueInterceptorChain);
+        return new {{cookiecutter.converter_name|to_camel}}RawdataConverter(converterConfig, valueInterceptorChain);
     }
 
 }

@@ -49,4 +49,14 @@ or
 ```
 $ brew install cookiecutter
 ```
+using pip is recommended, and you need to make sure the latest cookiecutter is installed to support case conversion.
+
+```
+$ pip install --upgrade cookiecutter
+```
+
+you might need to install jinja2.
+```
+$ pip install -U Jinja2
+```
 
