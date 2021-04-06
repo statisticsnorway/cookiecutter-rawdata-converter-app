@@ -55,3 +55,8 @@ using pip is recommended, and you need to make sure the latest cookiecutter is i
 $ pip install --upgrade cookiecutter
 ```
 
+you might need to install jinja2.js
+```
+$ pip install -U Jinja2
+```
+
